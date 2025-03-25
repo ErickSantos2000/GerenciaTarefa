@@ -13,6 +13,21 @@ typedef struct pilha{
     struct tarefa * topo;
 }Pilha;
 
+typedef struct lista{
+    Tarefa * inicio;
+}Lista;
+
+Lista* inicializaLista(){
+    Lista * lista = (Lista*)malloc(sizeof(Lista));
+    if(lista == NULL){
+        printf("Erro ao alocar memoria para lista.\n");
+        return NULL;
+    }
+    lista->inicio = NULL;
+    return lista;
+}
+
+
 Pilha * inicializaPilha(){
     Pilha * pilha = (Pilha*)malloc(sizeof(Pilha));
     if(pilha == NULL){
@@ -72,7 +87,7 @@ void liberarTarefas(Tarefa * tarefa){
 int main(){
     
     Pilha * pilha = inicializaPilha();
-    Tarefa * lista = NULL;
+    Lista * lista = inicializaLista();
 
     int opcao;
     int contPilha = 0;
@@ -105,7 +120,7 @@ int main(){
         case 2:
             if(pilha->topo != NULL){
                 Tarefa * tarefa = pilha->topo;
-                addLista(&lista, pilhaPop(&pilha->topo));
+                addLista(&lista->inicio, pilhaPop(&pilha->topo));
                 printf("Tarefa concluida: %s\n", tarefa->nome);
                 contPilha--;
             }
@@ -123,9 +138,9 @@ int main(){
             }
             break;
         case 4:
-            if(lista != NULL){
+            if(lista->inicio != NULL){
                 printf("\n==== lista de tarefas concluidas ====");
-                exibir(lista);
+                exibir(lista->inicio);
             }
             else{
                 printf("\nLista de tarefas concluídas vazia.\n");
@@ -133,7 +148,7 @@ int main(){
             break;
         case 0:
             liberarTarefas(pilha->topo); 
-            liberarTarefas(lista); 
+            liberarTarefas(lista->inicio); 
             
             free(pilha);
             free(lista);
