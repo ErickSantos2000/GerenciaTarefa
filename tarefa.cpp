@@ -52,6 +52,8 @@ Tarefa * criaTarefa(char * nome){
 void pilhaPush(Tarefa ** topo, Tarefa * tarefa){
     tarefa->prox = *topo;
     *topo = tarefa;
+
+    printf("Adicionando (%s) a pilha!\n", tarefa->nome);
 }
 
 Tarefa * pilhaPop(Tarefa ** topo){
