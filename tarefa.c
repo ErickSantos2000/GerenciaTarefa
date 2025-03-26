@@ -53,18 +53,30 @@ void pilhaPush(Tarefa ** topo, Tarefa * tarefa){
     tarefa->prox = *topo;
     *topo = tarefa;
 
-    printf("Adicionando (%s) a pilha!\n", tarefa->nome);
+    
 }
 
-Tarefa * pilhaPop(Tarefa ** topo){
+Tarefa * pegarTopoPilha(Tarefa ** topo){
     Tarefa * removida = *topo;
     *topo = removida->prox;
+    removida->prox = NULL;
     return removida;
 }
 
 void addLista(Tarefa ** lista, Tarefa * tarefa){
-    tarefa->prox = *lista;
-    *lista = tarefa;
+    
+    if(*lista == NULL){
+        *lista = tarefa;
+        return;
+    }
+    else{
+        Tarefa * aux = *lista;
+        while (aux->prox != NULL){
+            aux = aux->prox;
+        }
+        aux->prox = tarefa; 
+    }
+    
 }
 
 void exibir(Tarefa * tarefa){
@@ -109,25 +121,34 @@ int main(){
         case 1:
             char nome[50];
             if(contPilha == max){
-                printf("Pilha cheia, não é possivel inserir mais tarefas.");
+                printf("\nPilha cheia, limite maximo de tarefas na pilha é 3.\n");
             }
             else{
                 printf("Nome da tarefa: ");
                 fgets(nome, sizeof(nome), stdin);
                 nome[strcspn(nome, "\n")] = 0;
+
+                printf("Adicionando a pilha: %s\n", nome);
+                
+                //chamada
                 pilhaPush(&pilha->topo, criaTarefa(nome));
                 contPilha++;
             }
             break;
         case 2:
             if(pilha->topo != NULL){
-                Tarefa * tarefa = pilha->topo;
-                addLista(&lista->inicio, pilhaPop(&pilha->topo));
-                printf("Tarefa concluida: %s\n", tarefa->nome);
+                printf("Tarefa concluida: %s\n", pilha->topo->nome);
+                
+                Tarefa * tarefaRemovida = pegarTopoPilha(&pilha->topo);
+                Tarefa * tarefaNova = criaTarefa(tarefaRemovida->nome);
+
+                //chamada
+                addLista(&lista->inicio, tarefaNova); 
+                free(tarefaRemovida);
                 contPilha--;
             }
             else{
-                printf("Nao ha tarefas para marcar como concluida.\n");
+                printf("Não ha tarefas para marcar como concluida.\n");
             }
             break;
         case 3:
