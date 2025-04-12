@@ -1,6 +1,6 @@
 # GerenciaTarefa
 
-Projeto de Estruturas de Dados: Gerenciador de Tarefas com Pilha e Lista Encadeada
+Gerenciador de Tarefas com Pilha e Lista Encadeada
 
 Este repositório contém a implementação de um gerenciador 
 de tarefas utilizando pilha e lista encadeada. O objetivo do projeto é 
